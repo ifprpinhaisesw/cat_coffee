@@ -1,4 +1,4 @@
-# cat_coffee-Project
+# Cat Coffe
 An university project for the discipline Software Engineering II.
 
 Project advisor: Lauriana Paludo                                                    
