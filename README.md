@@ -37,3 +37,9 @@ the order to the customer.
         • Principais entregas do projeto     
         • Objetivos do projeto (itens quantificáveis que determinam se o projeto foi um sucesso ou não)     
         • Critérios de aceitação do produto     
+
+## Risk Matrix
+
+## Project Organization
+
+## Conclusion
