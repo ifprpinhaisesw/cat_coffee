@@ -1,0 +1,117 @@
+html {
+    font-size: 14px;
+}
+
+@media (min-width: 768px) {
+    html {
+        font-size: 16px;
+    }
+}
+
+.btn:focus, .btn:active:focus, .btn-link.nav-link:focus, .form-control:focus, .form-check-input:focus {
+    box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
+}
+
+html {
+    position: relative;
+    min-height: 100%;
+}
+
+body {
+    margin-bottom: 60px;
+    margin: auto;
+    font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+    overflow: auto;
+    background-color: #D4C3AF;
+    animation: gradient 15s ease infinite;
+    background-size: 400% 400%;
+    background-attachment: fixed;
+}
+
+
+.input-box {
+    width: 80%;
+    flex-direction: column;
+}
+
+.login {
+    position: absolute;
+    transform: translate(-50%, -50%);
+    padding: 150px;
+    top: 50%;
+    left: 50%;
+    display: flex;
+    border: 2px solid #FFF;
+    border-radius: 25px;
+    border-color: black;
+    background-color: #000;
+    opacity: 0.5;
+}
+
+@keyframes gradient {
+    0% {
+        background-position: 0% 0%;
+    }
+
+    50% {
+        background-position: 100% 100%;
+    }
+
+    100% {
+        background-position: 0% 0%;
+    }
+}
+
+
+.wave {
+    background: #BFA98E;
+    border-radius: 1000% 1000% 0 0;
+    position: fixed;
+    width: 250%;
+    height: 15em;
+    animation: wave 10s -3s linear infinite;
+    transform: translate3d(0, 0, 0);
+    bottom: 150px;
+    left: 0;
+    z-index: -1;
+    /*
+        
+    filter: blur(8px);
+    -webkit-filter: blur(8px)
+        */
+}
+    
+
+    .wave:nth-of-type(2) {
+        background: #8C6645;
+        bottom: 4em;
+        animation: wave 15s linear reverse infinite;
+    }
+
+    .wave:nth-of-type(3) {
+        background: #593622;
+        bottom: -2.5em;
+        animation: wave 20s -1s reverse infinite;
+    }
+
+@keyframes wave {
+    2% {
+        transform: translateX(1);
+    }
+    25% {
+        transform: translateX(-25%);
+    }
+
+    50% {
+        transform: translateX(-50%);
+    }
+
+    75% {
+        transform: translateX(-25%);
+    }
+
+    100% {
+        transform: translateX(1);
+    }
+}
+
