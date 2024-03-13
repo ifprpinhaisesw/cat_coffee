@@ -37,9 +37,20 @@ the order to the customer.
         • Principais entregas do projeto     
         • Objetivos do projeto (itens quantificáveis que determinam se o projeto foi um sucesso ou não)     
         • Critérios de aceitação do produto     
+        (Link da Prototipação)
 
 ## Risk Matrix
+Incluir na matriz a descrição dos riscos de projeto, técnicos e do negócio. Para cada risco estabelecer o impacto do
+mesmo para o projeto, a probabilidade de ocorrência e a mitigação para evitá-lo.
 
 ## Project Organization
+a. Cronograma     
+i. Dependência entre atividades e duração para cada atividade     
+b. Organização da Equipe     
+i. Envolvidos em cada atividade, papel e responsabilidade dos membros da equip     
+(Link do trello)
 
 ## Conclusion
+a. Recursos que serão utilizados (tecnologias, ferramentas de apoio, linguagem de programação)     
+b. Resultados esperados com o projeto desenvolvido     
+c. Recursos para monitoração e acompanhamento do projeto     
