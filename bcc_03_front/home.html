@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../css/styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css" integrity="sha512-KfkfwYDsLkIlwQp6LFnl8zNdLGxu9YAA1QvwINks4PhcElQSvqcyVLLD9aMhXd13uQjoXtEKNosOWaZqXgel0g==" crossorigin="anonymous" referrerpolicy="no-referrer" />    <title>Home</title>
+</head>
+<body>
+    <header>
+        <div class="header">
+            <h2 >CatCoffe</h2>
+        </div>
+        <div class="sidebar">
+            
+            <nav class="nav">
+                <div class="icon">
+                    
+                    <div class="list">
+                            
+                            <div class="boxburguermenu" id='btn'> 
+                                <div class="barsburguermenu"></div>
+                                <div class="barsburguermenu"></div>
+                                <div class="barsburguermenu"></div>
+                            </div>
+                                <a class="animationCurriculos text icone" href="/index.html">
+                                    <p>home</p>     
+                                </a>                     
+                                <a class="animationCurriculos text icone" href="/cart.html">
+                                    <p>Carrinho</p>     
+                                </a>
+                                <a class="animationCandidaturas text icone" href="/cartItem.html">
+                                    <p>Itens no Carrinho</p>
+                                </a>
+                                <a class="animationCandidaturas text icone" href="/item.html">
+                                    <p>Itens</p>
+                                </a>
+                                <a class="animationVagas text icone" href="/store.html">
+                                    <p>Lojas</p>
+                                </a>
+                    </div>
+                </div>
+            </nav>
+        </div>
+    </header>
+    
+    <main class="background">
+        <div class="shadowBackground"></div>    
+        
+    </main>
+    <div class="wave"></div>
+    <div class="wave"></div>
+    <div class="wave"></div>
+
+</body>
+<script src="../js/NavBarVertical.js"></script>
+<script>
+    document.getElementById('storeForm').addEventListener('submit', async function(event) {
+        event.preventDefault();
+
+        const name = document.getElementById('name').value;
+
+        const response = await fetch('http://127.0.0.1:5000/store', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                name: name
+            })
+        });
+
+        const data = await response.json();
+
+        if (response.ok) {
+            document.getElementById('successMessage').textContent = 'Store adicionada com sucesso!';
+            document.getElementById('errorMessage').textContent = '';
+        } else {
+            document.getElementById('errorMessage').textContent = data.message || 'Erro ao adicionar a store. Tente novamente.';
+            document.getElementById('successMessage').textContent = '';
+        }
+    });
+</script>
+
+<script src="js/auth.js"></script>
+<script>
+    document.getElementById('logoutButton').addEventListener('click', function() {
+        logout();
+    });
+</script>
+</html>

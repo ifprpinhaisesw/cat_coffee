@@ -1,0 +1,346 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@100&family=Share+Tech+Mono&display=swap');
+ *{
+     font-family:Share Tech Mono ,sans-serif;
+     margin: 0;
+     padding: 0;
+     box-sizing: border-box;
+ }
+ body{
+     background-color: #D4C3AF;
+     position:relative;
+     min-height: 100%;
+     width: 100%;
+ }
+
+
+.background{
+    min-width: 100%;
+    min-height: calc(100vh - 120px);
+    position: relative;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-attachment: fixed;
+}
+
+.shadowBackground{
+    width: calc(100vw - 75px);
+    min-height: calc(100vh - 120px);
+    background-color: rgba(0, 0, 0, 1%);
+    position: fixed;
+    top: 55;
+    left: 75px;
+    z-index: 5;
+}
+header{
+    width:100%;
+    height: 55px;
+}
+.header{
+    
+    width: 100%;
+    height: 100%;
+    background-color: #593622;
+    display: flex;
+    align-items: center;
+    z-index: 2;
+}
+
+.header h2{
+    
+    color: #fff;
+    font-size: 36px;
+    position: absolute;
+    left: 120px;
+    z-index: 1;
+}
+
+.nav{
+    display: flex;
+    justify-content:center;
+    z-index: 3;
+    position: absolute;
+    top:0;
+    padding-top: 10px;
+    background-color: #593622;
+    
+}
+.list{
+    
+    height: calc(100vh - 65px);
+    display:flex;
+    flex-direction: column;
+    justify-content:space-between;
+    align-items: center;
+}
+.icone{
+    display: flex;
+    position: relative;
+    bottom: 100px;
+    justify-content: center;
+    align-items: center;
+}
+.btn{
+    width: 100%;
+    height: 45px;
+    background: #1C2C40;
+    border: none;
+    outline: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 1em;
+    color: white;
+    font-weight: 500;
+    transition: .5s;
+}
+.btn:hover{
+    background: #D7D7D9;
+    color: #1C2C40;
+}
+.icon{
+    display: flex;
+    font-size: 36px;
+    color:#ffffff;
+    position: absolute;
+    background: relative;
+    transition: all ease-in-out .3s;
+ 
+}
+.sidebar .icon p{
+    display:none
+}
+.sidebar.active .icon p{
+    display:flex;
+    color:#593622;
+}
+
+.sidebar{
+    position:absolute;
+    display: flex;
+    justify-content:center;
+    top:0;
+    left:0;
+    height:107.3%;
+    background-color:#593622;
+    width: 75px;
+    transition: all 0.5s ease;
+    z-index: 10;
+}
+.sidebar i{
+    text-align: center;
+    padding-bottom: 20px;
+}
+.sidebar.active{
+    width:350px;
+    background-color: #fefefe;
+}
+
+.sidebar img{
+    display:none;
+    top:0;
+    left: 120px;
+    opacity: 0;
+    position: absolute;
+}
+.sidebar.active img{
+    animation: logoManut .5s ease-in forwards;
+    animation-delay: .5s;
+    display: flex;
+}
+
+.sidebar.active i{
+    right:0px;
+    color:#593622;
+
+}
+.sidebar.active .list a{
+    width: 300px;
+    border-radius: 4px;
+    transition: -webkit-ease-out 0.3s;
+}
+.sidebar.active .list a:hover{
+    box-shadow: inset 300px 0 0 0 #d8d8d8;
+    cursor: pointer;
+}
+
+.sidebar.active .text p{  
+    top:0;
+    text-align: center;
+    font-size: 30px;
+    display: table-cell;
+    float: left;
+    width: 300px;
+    margin-top: -25px;
+}
+.sidebar.active .animationCurriculos p{
+    opacity:0;
+    animation: listText .5s ease-in forwards;
+    animation-delay: .25s;
+}
+.sidebar.active .animationCandidaturas p{
+    opacity:0;
+    animation: listText .5s ease-in forwards;
+    animation-delay: .5s;
+}
+.sidebar.active .animationVagas p{
+    opacity:0;
+    animation: listText .5s ease-in forwards;
+    animation-delay: .75s;
+}
+
+.footer{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: absolute;
+    width: 100%;
+    height:65px;
+}
+.user{
+    display: flex;
+    flex-direction: row;
+    position:absolute;
+    font-size: 36px;
+    float: right;
+    right:150px;
+    color:white;
+    z-index: 15;
+}
+.user p{
+    padding-top: 5px;
+    padding-left: 20px;
+    font-size: 20px;
+}
+
+.boxburguermenu{
+    width: 40px;
+    height: 40px;
+    gap: 5px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    transition: .7s ease;
+    cursor: pointer;
+    z-index: 16;
+    position: relative;
+    left: 0;
+}
+.barsburguermenu{
+    width: 40px;
+    height: 5px;
+    background-color: rgb(255, 255, 255);
+    transition: .3s linear;
+}
+.sidebar.active .boxburguermenu{
+    position: relative;
+    left: 150px;
+}
+.sidebar.active .barsburguermenu
+{
+    background-color: #593622;
+}
+.sidebar.active .barsburguermenu:nth-child(1){
+    transform: rotate(45deg);
+    position: relative;
+    top: 10px;
+}
+.sidebar.active .barsburguermenu:nth-child(2){
+    transform: translateX(-20px);
+    opacity: 0;
+}
+.sidebar.active .barsburguermenu:nth-child(3){
+    transform: rotate(-45deg);
+    position: relative;
+    top: -10px;
+}
+@keyframes gradient {
+    0% {
+        background-position: 0% 0%;
+    }
+
+
+    50% {
+        background-position: 100% 100%;
+    }
+
+
+    100% {
+        background-position: 0% 0%;
+    }
+}
+
+
+
+
+.wave {
+    background: #BFA98E;
+    border-radius: 1000% 1000% 0 0;
+    position: fixed;
+    width: 250%;
+    height: 15em;
+    animation: wave 10s -3s linear infinite;
+    transform: translate3d(0, 0, 0);
+    bottom: 150px;
+    left: 0;
+    z-index: -1;
+
+
+}
+   
+
+
+.wave:nth-of-type(2) {
+    background: #8C6645;
+    bottom: 4em;
+    animation: wave 15s linear reverse infinite;
+}
+
+
+.wave:nth-of-type(3) {
+    background: #593622;
+    bottom: -2.5em;
+    animation: wave 20s -1s reverse infinite;
+}
+
+
+@keyframes wave {
+    2% {
+        transform: translateX(1);
+    }
+    25% {
+        transform: translateX(-25%);
+    }
+
+
+    50% {
+        transform: translateX(-50%);
+    }
+
+
+    75% {
+        transform: translateX(-25%);
+    }
+
+
+    100% {
+        transform: translateX(1);
+    }
+}
+@keyframes logoManut{
+
+    from{
+        opacity: 0;
+    }
+    to{
+        opacity: 1;
+    }
+}
+@keyframes listText{
+    from{
+        opacity:0       
+    }
+    to{
+        opacity:1;
+    }
+}

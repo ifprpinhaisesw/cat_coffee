@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CRUD de Cart</title>
+    <link rel ="stylesheet" href="css/style.css"> 
+</head>
+<body>
+
+<div>
+    <h2>Adicionar Cart</h2>
+    <form id="cartForm">
+        <input type="datetime-local" id="created_date" placeholder="Data de Criação" required>
+        <input type="datetime-local" id="updated_date" placeholder="Data de Atualização" required>
+        <input type="number" id="user_id" placeholder="ID do Usuário" required>
+        <button type="submit">Adicionar</button>
+    </form>
+</div>
+
+<div>
+    <h2>Lista de Carts</h2>
+    <ul id="cartList"></ul>
+</div>
+<div class="wave"></div>
+<div class="wave"></div>
+<div class="wave"></div>
+<script>
+    async function fetchCarts() {
+        const token = localStorage.getItem('jwtToken');  // Recupera o token do localStorage
+        const response = await fetch('http://127.0.0.1:5000/cart', {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`  // Adiciona o token no cabeçalho
+            }
+        });
+        const carts = await response.json();
+        return carts;
+    }
+
+    async function renderCarts() {
+        const cartList = document.getElementById('cartList');
+        cartList.innerHTML = '';
+
+        const carts = await fetchCarts();
+
+        carts.forEach(cart => {
+            const li = document.createElement('li');
+            li.innerHTML = `
+                <span>Criado em: ${cart.created_date}, Atualizado em: ${cart.updated_date}, Usuário: ${cart.user_id}</span>
+                <div>
+                    <button onclick="deleteCart(${cart.id})">Deletar</button>
+                </div>
+            `;
+            cartList.appendChild(li);
+        });
+    }
+
+    document.getElementById('cartForm').addEventListener('submit', async function(event) {
+        event.preventDefault();
+
+        const token = localStorage.getItem('jwtToken');  // Recupera o token do localStorage
+        const created_date = document.getElementById('created_date').value;
+        const updated_date = document.getElementById('updated_date').value;
+        const user_id = document.getElementById('user_id').value;
+
+        await fetch('http://127.0.0.1:5000/cart', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`  // Adiciona o token no cabeçalho
+            },
+            body: JSON.stringify({
+                created_date: new Date(created_date).toISOString(),
+                updated_date: new Date(updated_date).toISOString(),
+                user_id: parseInt(user_id)
+            })
+        });
+
+        document.getElementById('created_date').value = '';
+        document.getElementById('updated_date').value = '';
+        document.getElementById('user_id').value = '';
+        renderCarts();
+    });
+
+    async function deleteCart(id) {
+        const token = localStorage.getItem('jwtToken');  // Recupera o token do localStorage
+        await fetch(`http://127.0.0.1:5000/cart/${id}`, {
+            method: 'DELETE',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`  // Adiciona o token no cabeçalho
+            }
+        });
+        renderCarts();
+    }
+
+    async function editCart(id) {
+        const token = localStorage.getItem('jwtToken');  // Recupera o token do localStorage
+        const newCreatedDate = prompt('Digite a nova Data de Criação (YYYY-MM-DDTHH:MM):');
+        const newUpdatedDate = prompt('Digite a nova Data de Atualização (YYYY-MM-DDTHH:MM):');
+        const newUserId = prompt('Digite o novo ID do Usuário:');
+        if (newCreatedDate && newUpdatedDate && newUserId) {
+            await fetch(`http://127.0.0.1:5000/cart/${id}`, {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`  // Adiciona o token no cabeçalho
+                },
+                body: JSON.stringify({
+                    created_date: new Date(newCreatedDate).toISOString(),
+                    updated_date: new Date(newUpdatedDate).toISOString(),
+                    user_id: parseInt(newUserId)
+                })
+            });
+            renderCarts();
+        }
+    }
+
+    // Renderiza os carts na inicialização
+    renderCarts();
+</script>
+
+</body>
+</html>

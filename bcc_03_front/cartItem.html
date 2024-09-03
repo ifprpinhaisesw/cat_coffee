@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CRUD de CartItem</title>
+    <link rel ="stylesheet" href="css/style.css"> 
+</head>
+<body>
+
+<div class="crud-container">
+    <h2>Adicionar CartItem</h2>
+    <form id="cartItemForm">
+        <input type="number" id="cart_id" placeholder="ID do Carrinho" required>
+        <input type="number" id="item_id" placeholder="ID do Item" required>
+        <input type="number" id="quantity" placeholder="Quantidade" required>
+        <button type="submit">Adicionar</button>
+    </form>
+</div>
+
+<div class="crud-container">
+    <h2>Lista de CartItems</h2>
+    <ul id="cartItemList" class="cartItem-list"></ul>
+</div>
+<div class="wave"></div>
+<div class="wave"></div>
+<div class="wave"></div>
+<script>
+    async function fetchCartItems() {
+        const token = localStorage.getItem('jwtToken');  // Recupera o token do localStorage
+        const response = await fetch('http://127.0.0.1:5000/cartItem', {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`  // Adiciona o token no cabeçalho
+            }
+        });
+        const cartItems = await response.json();
+        return cartItems;
+    }
+
+    async function renderCartItems() {
+        const cartItemList = document.getElementById('cartItemList');
+        cartItemList.innerHTML = '';
+
+        const cartItems = await fetchCartItems();
+
+        cartItems.forEach(cartItem => {
+            const li = document.createElement('li');
+            li.className = 'cartItem-item';
+            li.innerHTML = `
+                <span>Carrinho: ${cartItem.cart_id}, Item: ${cartItem.item_id}, Quantidade: ${cartItem.quantity}</span>
+                <div>
+                    <button onclick="deleteCartItem(${cartItem.id})">Deletar</button>
+                </div>
+            `;
+            cartItemList.appendChild(li);
+        });
+    }
+
+    document.getElementById('cartItemForm').addEventListener('submit', async function(event) {
+        event.preventDefault();
+
+        const token = localStorage.getItem('jwtToken');  // Recupera o token do localStorage
+        const cart_id = document.getElementById('cart_id').value;
+        const item_id = document.getElementById('item_id').value;
+        const quantity = document.getElementById('quantity').value;
+
+        await fetch('http://127.0.0.1:5000/cartItem', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`  // Adiciona o token no cabeçalho
+            },
+            body: JSON.stringify({
+                cart_id: parseInt(cart_id),
+                item_id: parseInt(item_id),
+                quantity: parseInt(quantity)
+            })
+        });
+
+        document.getElementById('cart_id').value = '';
+        document.getElementById('item_id').value = '';
+        document.getElementById('quantity').value = '';
+        renderCartItems();
+    });
+
+    async function deleteCartItem(id) {
+        const token = localStorage.getItem('jwtToken');  // Recupera o token do localStorage
+        await fetch(`/cartItems/${id}`, {
+            method: 'DELETE',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`  // Adiciona o token no cabeçalho
+            }
+        });
+        renderCartItems();
+    }
+
+    async function editCartItem(id) {
+        const token = localStorage.getItem('jwtToken');  // Recupera o token do localStorage
+        const newCartId = prompt('Digite o novo ID do Carrinho:');
+        const newItemId = prompt('Digite o novo ID do Item:');
+        const newQuantity = prompt('Digite a nova Quantidade:');
+        if (newCartId && newItemId && newQuantity) {
+            await fetch(`/cartItems/${id}`, {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`  // Adiciona o token no cabeçalho
+                },
+                body: JSON.stringify({
+                    cart_id: parseInt(newCartId),
+                    item_id: parseInt(newItemId),
+                    quantity: parseInt(newQuantity)
+                })
+            });
+            renderCartItems();
+        }
+    }
+
+    // Renderiza os cartItems na inicialização
+    renderCartItems();
+</script>
+
+</body>
+</html>

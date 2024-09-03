@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CRUD de Items</title>
+    <link rel ="stylesheet" href="css/style.css"> 
+</head>
+<body>
+
+<div class="crud-container">
+    <h2>Adicionar Item</h2>
+    <form id="itemForm">
+        <input type="text" id="name" placeholder="Nome do Item" required>
+        <input type="number" id="price" placeholder="Preço do Item" required>
+        <input type="number" id="store_id" placeholder="ID da Store" required>
+        <button type="submit">Adicionar</button>
+    </form>
+</div>
+
+<div class="crud-container">
+    <h2>Lista de Items</h2>
+    <ul id="itemList" class="item-list"></ul>
+</div>
+<div class="wave"></div>
+<div class="wave"></div>
+<div class="wave"></div>
+<script>
+    async function fetchItems() {
+        const response = await fetch('http://127.0.0.1:5000/item', {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+            }
+        });
+        const items = await response.json();
+        return items;
+    }
+
+    async function renderItems() {
+        const itemList = document.getElementById('itemList');
+        itemList.innerHTML = '';
+
+        const items = await fetchItems();
+
+        items.forEach(item => {
+            const li = document.createElement('li');
+            li.className = 'item-item';
+            li.innerHTML = `
+                <span>${item.name} - R$${item.price}</span>
+                <div>
+                    <button onclick="editItem(${item.id})">Editar</button>
+                    <button onclick="deleteItem(${item.id})">Deletar</button>
+                </div>
+            `;
+            itemList.appendChild(li);
+        });
+    }
+
+    document.getElementById('itemForm').addEventListener('submit', async function(event) {
+        event.preventDefault();
+
+        const name = document.getElementById('name').value;
+        const price = document.getElementById('price').value;
+        const store_id = document.getElementById('store_id').value;
+
+        await fetch('http://127.0.0.1:5000/item', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                name: name,
+                price: parseFloat(price),
+                store_id: parseInt(store_id)
+            })
+        });
+
+        document.getElementById('name').value = '';
+        document.getElementById('price').value = '';
+        document.getElementById('store_id').value = '';
+        renderItems();
+    });
+
+    async function deleteItem(id) {
+        await fetch(`http://127.0.0.1:5000/item/${id}`, {
+            method: 'DELETE',
+            headers: {
+                'Content-Type': 'application/json',
+            }
+        });
+        renderItems();
+    }
+
+    async function editItem(id) {
+        const newName = prompt('Digite o novo nome do item:');
+        const newPrice = prompt('Digite o novo preço do item:');
+        const newStoreId = prompt('Digite o novo ID da store:');
+        if (newName && newPrice && newStoreId) {
+            await fetch(`http://127.0.0.1:5000/item/${id}`, {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    name: newName,
+                    price: parseFloat(newPrice),
+                    store_id: parseInt(newStoreId)
+                })
+            });
+            renderItems();
+        }
+    }
+    renderItems();
+</script>
+
+</body>
+</html>

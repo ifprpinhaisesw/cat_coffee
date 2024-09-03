@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CRUD de Stores</title>
+    <link rel ="stylesheet" href="css/style.css"> 
+</head>
+<body>
+
+<div class="crud-container">
+    <h2>Adicionar Store</h2>
+    <form id="storeForm">
+        <input type="text" id="name" placeholder="Nome da Store" required>
+        <button type="submit">Adicionar</button>
+    </form>
+</div>
+
+<div class="crud-container">
+    <h2>Lista de Stores</h2>
+    <ul id="storeList" class="store-list"></ul>
+</div>
+<div>
+    <div class="wave"></div>
+    <div class="wave"></div>
+    <div class="wave"></div>
+</div>
+<script>
+    async function fetchStores() {
+        const response = await fetch('http://127.0.0.1:5000/store', {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+            }
+        });
+        const stores = await response.json();
+        return stores;
+    }
+
+    async function renderStores() {
+        const storeList = document.getElementById('storeList');
+        storeList.innerHTML = '';
+
+        const stores = await fetchStores();
+
+        stores.forEach(store => {
+            const li = document.createElement('li');
+            li.className = 'store-item';
+            li.innerHTML = `
+                <span>${store.name}</span>
+                <div>
+                    <button onclick="deleteStore(${store.id})">Deletar</button>
+                </div>
+            `;
+            storeList.appendChild(li);
+        });
+    }
+
+    document.getElementById('storeForm').addEventListener('submit', async function(event) {
+        event.preventDefault();
+
+        const name = document.getElementById('name').value;
+
+        await fetch('http://127.0.0.1:5000/store', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                name: name
+            })
+        });
+
+        document.getElementById('name').value = '';
+        renderStores();
+    });
+
+    async function deleteStore(id) {
+        await fetch(`http://127.0.0.1:5000/store/${id}`, {
+            method: 'DELETE',
+            headers: {
+                'Content-Type': 'application/json',
+            }
+        });
+        renderStores();
+    }
+    renderStores();
+</script>
+
+</body>
+</html>
